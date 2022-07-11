@@ -9,6 +9,9 @@ module "lambda_check_url" {
         ENV                         = local.lambda_env
         METHOD                      = "validity/checkUrl"
     }
+    subnet_ids                      = local.lambda_vpc_subnet_ids
+    security_group_ids              = local.lambda_vpc_security_group_ids
+
 }
 
 
@@ -22,4 +25,7 @@ module "lambda_check_email" {
         ENV                         = local.lambda_env
         METHOD                      = "validity/checkEmail"
     }
+    subnet_ids                      = local.lambda_vpc_subnet_ids
+    security_group_ids              = local.lambda_vpc_security_group_ids
+
 }

@@ -36,4 +36,15 @@ variable "env_vars" {
   type        = map(string)
 }
 
+# VPC Configurations
+
+variable "subnet_ids" {
+  type    = list(string)
+  default = []
+}
+
+variable "security_group_ids" {
+  type    = list(string)
+  default = []
+}
 

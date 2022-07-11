@@ -10,10 +10,14 @@ resource "aws_lambda_function" "lambda" {
     role             = aws_iam_role.iam-role.arn
 
     environment {
-    variables = merge({
-      NODE_OPTIONS = "--enable-source-maps"
-    }, var.env_vars)
-  }
+      variables = merge({
+        NODE_OPTIONS = "--enable-source-maps"
+      }, var.env_vars)
+    }
+    vpc_config {
+      subnet_ids         = var.subnet_ids
+      security_group_ids = var.security_group_ids
+    }
 }
 
 #  Used to create the zip file.
@@ -80,4 +84,33 @@ resource "aws_lambda_permission" "permission-invoke-lambda" {
   action        = "lambda:InvokeFunction"
   principal     = "apigateway.amazonaws.com"
   function_name = aws_lambda_function.lambda.arn
+}
+
+#
+# Description:
+# IAM Policy to allow this lambda to create, verify and manage network interfaces & VPC connections.
+# 
+
+resource "aws_iam_role_policy" "iam-role-policy-vpc" {
+  name   = "${var.name}-policy-vpc"
+  role   = aws_iam_role.iam-role.id
+  policy = data.aws_iam_policy_document.iam-role-policy-vpc-document.json
+}
+
+#
+# Description:
+# IAM Policy for managing custom VPC endpoint configurations
+# Uses the default AWS provider's AWSLambdaVPCAccessExecutionRole Policy sample for lambda functions
+# 
+
+data "aws_iam_policy_document" "iam-role-policy-vpc-document" {
+  statement {
+    actions = [
+      "ec2:CreateNetworkInterface",
+      "ec2:DescribeNetworkInterfaces",
+      "ec2:DeleteNetworkInterface"
+    ]
+
+    resources = ["*"]
+  }
 }
