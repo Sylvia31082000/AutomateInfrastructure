@@ -1,6 +1,6 @@
 # AutomateInfrastructure
 > This is a simple web application service that allows users to validate URLs and emails.
-> Hosted website [_here_](http://s3-validity-bucket.s3-website-ap-southeast-1.amazonaws.com). 
+> Hosted website [_here_](http://s3-validity-react-bucket.s3-website-ap-southeast-1.amazonaws.com/). 
 
 ## Table of Contents
 * [General Info](#general-information)
