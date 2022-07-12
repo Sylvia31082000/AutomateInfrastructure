@@ -5,7 +5,7 @@ terraform {
     }
   }
   backend "s3" {
-    bucket = "s3-infra-bucket-terraform"
+    bucket = "s3-infra-terraform"
     key = "terraform.tfstate"
     region = "ap-southeast-1"
   }
